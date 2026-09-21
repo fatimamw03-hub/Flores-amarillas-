@@ -51,7 +51,7 @@ function fillPoints(count = 80) {
 
     if (insideHeart(x, y)) {
       const nx = 50 + x * 26;
-      const ny = 47 + -y * 20;
+      const ny = 47 - y * 20;
 
       if (nx > 15 && nx < 85 && ny > 12 && ny < 77) {
         pts.push([nx, ny]);
@@ -84,4 +84,28 @@ function addFlower(x, y, delay) {
 start.addEventListener("click", () => {
   intro.style.display = "none";
 
-  garden
+  garden.classList.remove("hidden");
+  garden.setAttribute("aria-hidden", "false");
+
+  crown.innerHTML = "";
+  message.classList.remove("show");
+
+  const outline = outlinePoints();
+  const fill = fillPoints();
+
+  let delay = 0;
+
+  outline.forEach((p) => {
+    addFlower(p[0], p[1], delay);
+    delay += 45;
+  });
+
+  fill.forEach((p) => {
+    addFlower(p[0], p[1], delay);
+    delay += 28;
+  });
+
+  setTimeout(() => {
+    message.classList.add("show");
+  }, delay + 700);
+});
